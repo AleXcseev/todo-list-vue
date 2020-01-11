@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<form class="todo-list" @submit.prevent="addTodo">
+		<form class="todo-list" @submit.prevent="addTodo(title)">
 			<input v-model="title" placeholder="Введите задачу" />
 			<button>Создать</button>
 		</form>
 		<div class="list">
 			<ul>
-				<li v-for="item in changeList" :key="item.id">
-					<Todo-item :item="item" @delete-todo="deleteTodo"></Todo-item>
+				<li v-for="item in renderList" :key="item.id">
+					<Todo-item :item="item"></Todo-item>
 				</li>
 			</ul>
 		</div>
@@ -27,50 +27,17 @@
 		data() {
 			return {
 				title: "",
-				changeList: "",
-				list: [
-					{
-						id: "1234",
-						title: "Learn Vue",
-						performed: false,
-						important: false,
-					},
-					{
-						id: "1235",
-						title: "Learn Vuex",
-						performed: false,
-						important: false,
-					},
-					{
-						id: "1236",
-						title: "Learn Vue-router",
-						performed: false,
-						important: false,
-					},
-				],
 			};
 		},
-		created() {
-			this.changeList = this.list;
+		computed: {
+			renderList() {
+				return this.$store.state.list;
+			},
 		},
 		methods: {
-			addTodo() {
-				const dublicate = this.list.find((item) => {
-					return item.title === this.title;
-				});
-				if (this.title.trim() && !dublicate) {
-					const newTodo = {
-						id: Date.now().toString(),
-						title: this.title,
-						performed: false,
-						important: false,
-					};
-					this.title = "";
-					this.list.push(newTodo);
-				}
-			},
-			deleteTodo(id) {
-				this.list = this.list.filter((item) => item.id !== id);
+			addTodo(title) {
+				this.$store.commit("addTodo", title);
+				this.title = "";
 			},
 		},
 	};

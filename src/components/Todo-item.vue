@@ -3,9 +3,9 @@
 		<span :class="{ done: item.performed, important: item.important }">
 			{{ item.title }}
 		</span>
-		<button @click="doneTodo">Выполнено</button>
-		<button @click="importantTodo">Важное</button>
-		<button @click="$emit('delete-todo', item.id)">Удалить</button>
+		<button @click="done">Выполнено</button>
+		<button @click="important">Важное</button>
+		<button @click="deleteTodoItem">Удалить</button>
 	</div>
 </template>
 
@@ -17,11 +17,14 @@
 			},
 		},
 		methods: {
-			importantTodo() {
-				this.item.important = !this.item.important;
+			done() {
+				this.$store.commit("doneTodo", this.item.id);
 			},
-			doneTodo() {
-				this.item.performed = !this.item.performed;
+			important() {
+				this.$store.commit("importantTodo", this.item.id);
+			},
+			deleteTodoItem() {
+				this.$store.commit("deleteTodo", this.item.id);
 			},
 		},
 	};

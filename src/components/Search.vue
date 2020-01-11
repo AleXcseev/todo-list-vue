@@ -1,18 +1,13 @@
 <template>
 	<div class="search">
 		<form>
-			<input placeholder="Поиск" v-model="searh" />
+			<input placeholder="Поиск" />
 		</form>
 	</div>
 </template>
 
 <script>
 	export default {
-		data() {
-			return {
-				search: "",
-			};
-		},
 	};
 </script>
 
